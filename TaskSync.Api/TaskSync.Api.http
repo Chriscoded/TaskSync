@@ -1,0 +1,6 @@
+@TaskSync.Api_HostAddress = http://localhost:5198
+
+GET {{TaskSync.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

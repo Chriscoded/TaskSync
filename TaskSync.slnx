@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="TaskSync.Api/TaskSync.Api.csproj" />
+    <Project Path="TaskSync.Application/TaskSync.Application.csproj" />
+    <Project Path="TaskSync.Domain/TaskSync.Domain.csproj" />
+    <Project Path="TaskSync.Infrastructure/TaskSync.Infrastructure.csproj" />
+    <Project Path="TaskSync.Persistence/TaskSync.Persistence.csproj" />
+    <Project Path="TaskSync.SharedKernel/TaskSync.SharedKernel.csproj" />
+  </Folder>
+</Solution>
