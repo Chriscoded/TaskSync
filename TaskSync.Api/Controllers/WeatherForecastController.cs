@@ -22,5 +22,6 @@ namespace TaskSync.Api.Controllers
             })
             .ToArray();
         }
+
     }
 }
