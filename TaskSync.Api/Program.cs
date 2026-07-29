@@ -1,3 +1,7 @@
+using TaskSync.Application;
+using TaskSync.Infrastructure;
+using TaskSync.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -13,6 +17,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+builder.Services.AddApplication();
+
+builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddInfrastructure();
 
 app.UseHttpsRedirection();
 

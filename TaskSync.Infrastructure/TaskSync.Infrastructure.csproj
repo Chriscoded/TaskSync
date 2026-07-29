@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.11" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSync.Application\TaskSync.Application.csproj" />
+    <ProjectReference Include="..\TaskSync.Domain\TaskSync.Domain.csproj" />
     <ProjectReference Include="..\TaskSync.SharedKernel\TaskSync.SharedKernel.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 ﻿namespace TaskSync.Domain.Enums;
 
-public enum TaskStatus
+public enum TasksStatus
 {
     Todo = 1,
     InProgress = 2,

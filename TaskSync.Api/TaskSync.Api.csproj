@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ProjectsController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\ProjectsController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
@@ -16,8 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaskSync.Application\TaskSync.Application.csproj" />
+    <ProjectReference Include="..\TaskSync.Infrastructure\TaskSync.Infrastructure.csproj" />
     <ProjectReference Include="..\TaskSync.Persistence\TaskSync.Persistence.csproj" />
-    <ProjectReference Include="..\TaskSync.SharedKernel\TaskSync.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>
