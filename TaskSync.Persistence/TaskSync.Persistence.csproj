@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSync.Application\TaskSync.Application.csproj" />
+    <ProjectReference Include="..\TaskSync.Domain\TaskSync.Domain.csproj" />
+    <ProjectReference Include="..\TaskSync.SharedKernel\TaskSync.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>
