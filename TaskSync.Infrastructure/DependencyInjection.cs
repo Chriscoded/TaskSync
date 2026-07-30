@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtService, JwtService>();
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IEmailService, EmailService>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

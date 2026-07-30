@@ -32,4 +32,18 @@ public sealed class Comment : BaseAuditableEntity
     public Guid UserId { get; private set; }
 
     public string Text { get; private set; } = default!;
+
+    public static Comment Create(
+    Guid taskItemId,
+    Guid userId,
+    string text)
+    {
+        return new Comment
+        {
+            Id = Guid.NewGuid(),
+            TaskItemId = taskItemId,
+            UserId = userId,
+            Text = text
+        };
+    }
 }
