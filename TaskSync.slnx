@@ -8,5 +8,7 @@
     <Project Path="TaskSync.Persistence/TaskSync.Persistence.csproj" />
     <Project Path="TaskSync.SharedKernel/TaskSync.SharedKernel.csproj" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <File Path="TaskSync.Api/docker-compose.yml" />
+  </Folder>
 </Solution>
