@@ -20,6 +20,8 @@ public static class DependencyInjection
 
         services.AddScoped<IJwtService, JwtService>();
 
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

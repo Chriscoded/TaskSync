@@ -1,11 +1,8 @@
-// ============================================
-// Api/Program.cs (replace)
-// ============================================
-
 using TaskSync.Api.Extensions;
 using TaskSync.Application;
 using TaskSync.Infrastructure;
 using TaskSync.Persistence;
+using TaskSync.Persistence.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,5 +33,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider
+        .GetRequiredService<ApplicationDbContext>();
+
+    db.Database.EnsureCreated();
+
+    await ApplicationDbContextSeed.SeedAsync(db);
+}
 
 app.Run();

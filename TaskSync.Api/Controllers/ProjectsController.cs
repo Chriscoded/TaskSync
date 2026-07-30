@@ -1,33 +1,26 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TaskSync.Api.Controllers;
 using TaskSync.Application.Features.Projects.Commands.CreateProject;
 using TaskSync.Application.Features.Projects.Queries.GetProjects;
 
-namespace TaskSync.Api.Controllers;
-
-[ApiController]
 [Route("api/projects")]
-public sealed class ProjectsController : ControllerBase
+public sealed class ProjectsController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public ProjectsController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet]
     public async Task<IResult> Get()
     {
         return Results.Ok(
-            await _mediator.Send(new GetProjectsQuery()));
+            await Sender.Send(new GetProjectsQuery()));
     }
 
     [HttpPost]
-    public async Task<IResult> Create(CreateProjectCommand command)
+    public async Task<IResult> Create(
+        CreateProjectCommand command)
     {
-        var id = await _mediator.Send(command);
+        var id = await Sender.Send(command);
 
-        return Results.Created($"/api/projects/{id}", id);
+        return Results.Created(
+            $"/api/projects/{id}",
+            id);
     }
 }

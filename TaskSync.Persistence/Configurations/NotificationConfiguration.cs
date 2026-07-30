@@ -1,5 +1,4 @@
-﻿// ============================================
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskSync.Domain.Entities;
 

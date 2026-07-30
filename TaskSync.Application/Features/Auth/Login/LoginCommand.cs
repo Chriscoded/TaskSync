@@ -1,8 +1,4 @@
-﻿// ============================================
-// Application/Features/Auth/Login/LoginCommand.cs
-// ============================================
-
-using MediatR;
+﻿using MediatR;
 
 namespace TaskSync.Application.Features.Auth.Login;
 

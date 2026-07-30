@@ -1,8 +1,4 @@
-﻿// ============================================
-// Api/Controllers/UsersController.cs
-// ============================================
-
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Users.Commands.CreateUser;
 using TaskSync.Application.Features.Users.Queries.GetUsers;
