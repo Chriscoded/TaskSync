@@ -14,11 +14,16 @@ public sealed class CurrentUserService : ICurrentUserService
     }
 
     public Guid UserId =>
-        Guid.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+    Guid.Parse(
+        _httpContextAccessor.HttpContext!.User
+            .FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
     public Guid TenantId =>
-        Guid.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue("tenantId")!);
+        Guid.Parse(
+            _httpContextAccessor.HttpContext!.User
+                .FindFirst("tenantId")!.Value);
 
     public string Email =>
-        _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Email)!;
+        _httpContextAccessor.HttpContext!.User
+            .FindFirst(ClaimTypes.Email)!.Value;
 }
