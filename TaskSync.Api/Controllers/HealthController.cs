@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TaskSync.Application.Features.Health;
 
 namespace TaskSync.Api.Controllers;
 
@@ -6,13 +8,16 @@ namespace TaskSync.Api.Controllers;
 [Route("api/health")]
 public sealed class HealthController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult Get()
+    private readonly IMediator _mediator;
+
+    public HealthController(IMediator mediator)
     {
-        return Ok(new
-        {
-            status = "Healthy",
-            utc = DateTime.UtcNow
-        });
+        _mediator = mediator;
+    }
+
+    [HttpGet]
+    public async Task<IResult> Get()
+    {
+        return Results.Ok(await _mediator.Send(new HealthQuery()));
     }
 }

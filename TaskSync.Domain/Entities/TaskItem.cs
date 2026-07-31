@@ -34,6 +34,7 @@ public sealed class TaskItem : AggregateRoot
     public Guid TenantId { get; private set; }
 
     public Guid ProjectId { get; private set; }
+    public Project Project { get; private set; } = default!;
 
     public Guid? AssignedUserId { get; private set; }
 

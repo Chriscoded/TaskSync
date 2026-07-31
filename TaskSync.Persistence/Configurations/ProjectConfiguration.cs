@@ -29,5 +29,11 @@ public sealed class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(x => x.TenantId);
 
         builder.HasIndex(x => x.TenantId);
+
+        builder.HasMany(x => x.Tasks)
+           .WithOne(x => x.Project)
+           .HasForeignKey(x => x.ProjectId)
+           .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

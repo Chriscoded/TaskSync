@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Users.Commands.CreateUser;
+using TaskSync.Application.Features.Users.Queries.GetCurrentUser;
 using TaskSync.Application.Features.Users.Queries.GetUsers;
 
 namespace TaskSync.Api.Controllers;
@@ -30,5 +31,13 @@ public sealed class UsersController : ControllerBase
         var id = await _mediator.Send(command);
 
         return Results.Created($"/api/users/{id}", id);
+    }
+
+    [HttpGet("me")]
+    public async Task<IResult> Me()
+    {
+        return Results.Ok(
+            await _mediator.Send(
+                new GetCurrentUserQuery()));
     }
 }

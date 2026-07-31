@@ -20,6 +20,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app.UseApplicationMiddleware();
@@ -37,6 +39,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health");
 
 
 using (var scope = app.Services.CreateScope())

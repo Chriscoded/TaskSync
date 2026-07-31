@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Tasks.Commands.CreateTask;
+using TaskSync.Application.Features.Tasks.Commands.DeleteTask;
+using TaskSync.Application.Features.Tasks.Queries.GetTaskById;
 using TaskSync.Application.Features.Tasks.Queries.GetTasks;
 
 namespace TaskSync.Api.Controllers;
@@ -34,6 +36,22 @@ public sealed class TasksController : ControllerBase
             request.Priority));
 
         return Results.Created($"/api/tasks/{id}", id);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IResult> Get(Guid id)
+    {
+        return Results.Ok(
+            await _mediator.Send(
+                new GetTaskByIdQuery(id)));
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IResult> Delete(Guid id)
+    {
+        await _mediator.Send(new DeleteTaskCommand(id));
+
+        return Results.NoContent();
     }
 }
 

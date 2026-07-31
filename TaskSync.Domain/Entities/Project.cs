@@ -7,6 +7,8 @@ namespace TaskSync.Domain.Entities;
 
 public sealed class Project : AggregateRoot
 {
+    private readonly List<TaskItem> _tasks = [];
+
     private Project()
     {
     }
@@ -33,6 +35,8 @@ public sealed class Project : AggregateRoot
 
     public ProjectStatus Status { get; private set; }
 
+    public IReadOnlyCollection<TaskItem> Tasks => _tasks.AsReadOnly();
+
     public static Project Create(
         Guid tenantId,
         ProjectName name,
@@ -47,6 +51,20 @@ public sealed class Project : AggregateRoot
             new ProjectCreatedDomainEvent(project.Id));
 
         return project;
+    }
+
+    public void AddTask(TaskItem task)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+
+        _tasks.Add(task);
+    }
+
+    public void RemoveTask(TaskItem task)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+
+        _tasks.Remove(task);
     }
 
     public void Rename(ProjectName name)

@@ -18,10 +18,13 @@ public sealed class DeleteTaskCommandHandler
         DeleteTaskCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = await _context.Tasks
-            .FirstAsync(x => x.Id == request.Id, cancellationToken);
+        var task = await _context.Tasks
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        _context.Tasks.Remove(entity);
+        if (task is null)
+            throw new Exception("Task not found.");
+
+        _context.Tasks.Remove(task);
 
         await _context.SaveChangesAsync(cancellationToken);
     }
