@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Auth.Login;
+using TaskSync.Application.Features.Auth.Register;
 
 namespace TaskSync.Api.Controllers;
 
@@ -24,5 +25,14 @@ public sealed class AuthController : ControllerBase
         {
             accessToken = token
         });
+    }
+
+    [HttpPost("register")]
+    public async Task<IResult> Register(
+    RegisterCommand command)
+    {
+        var id = await _mediator.Send(command);
+
+        return Results.Ok(id);
     }
 }

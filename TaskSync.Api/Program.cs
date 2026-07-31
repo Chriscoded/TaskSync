@@ -18,6 +18,8 @@ builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 app.UseApplicationMiddleware();
@@ -25,6 +27,8 @@ app.UseApplicationMiddleware();
 app.UseSwagger();
 
 app.UseSwaggerUI();
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

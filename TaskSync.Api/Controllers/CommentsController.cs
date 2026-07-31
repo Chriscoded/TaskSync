@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Comments.Commands.AddComment;
 using TaskSync.Application.Features.Comments.Queries.GetComments;
 
 namespace TaskSync.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/tasks/{taskId:guid}/comments")]
 public sealed class CommentsController : ControllerBase

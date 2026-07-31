@@ -30,7 +30,7 @@ public sealed class GetUsersQueryHandler
             {
                 Id = x.Id,
                 FullName = x.FullName,
-                Email = x.Email.Value,
+                Email = x.Email,
                 Status = x.Status.ToString()
             })
             .ToListAsync(cancellationToken);

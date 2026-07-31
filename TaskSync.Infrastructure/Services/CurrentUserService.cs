@@ -1,29 +1,31 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using TaskSync.Application.Interfaces;
 
 namespace TaskSync.Infrastructure.Services;
 
 public sealed class CurrentUserService : ICurrentUserService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    public CurrentUserService(
+        IHttpContextAccessor contextAccessor)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _contextAccessor = contextAccessor;
     }
 
+    private ClaimsPrincipal User =>
+        _contextAccessor.HttpContext?.User
+        ?? throw new UnauthorizedAccessException();
+
     public Guid UserId =>
-    Guid.Parse(
-        _httpContextAccessor.HttpContext!.User
-            .FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        Guid.Parse(
+            User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
     public Guid TenantId =>
         Guid.Parse(
-            _httpContextAccessor.HttpContext!.User
-                .FindFirst("tenantId")!.Value);
+            User.FindFirst("tenantId")!.Value);
 
     public string Email =>
-        _httpContextAccessor.HttpContext!.User
-            .FindFirst(ClaimTypes.Email)!.Value;
+        User.FindFirstValue(ClaimTypes.Email)!;
 }

@@ -20,7 +20,7 @@ public static class ApplicationDbContextSeed
             tenant.Id,
             "Admin",
             "User",
-            new Email("admin@tasksync.com"));
+            "admin@tasksync.com");
 
         context.Users.Add(user);
 

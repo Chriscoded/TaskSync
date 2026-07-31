@@ -28,7 +28,7 @@ public sealed class CreateUserCommandHandler
             _currentUser.TenantId,
             request.FirstName,
             request.LastName,
-            new Email(request.Email));
+            new string(request.Email));
 
         _context.Users.Add(user);
 

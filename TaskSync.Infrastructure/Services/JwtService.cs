@@ -1,8 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using TaskSync.Application.Abstractions;
 using TaskSync.Application.Interfaces;
 
 namespace TaskSync.Infrastructure.Services;
@@ -10,28 +12,41 @@ namespace TaskSync.Infrastructure.Services;
 public sealed class JwtService : IJwtService
 {
     private readonly IConfiguration _configuration;
+    private readonly IApplicationDbContext _context;
 
-    public JwtService(IConfiguration configuration)
+    public JwtService(
+        IConfiguration configuration,
+        IApplicationDbContext context)
     {
         _configuration = configuration;
+        _context = context;
     }
 
-    public Task<string> GenerateTokenAsync(Guid userId)
+    public async Task<string> GenerateTokenAsync(Guid userId)
     {
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
+        var user = await _context.Users
+            .FirstAsync(x => x.Id == userId);
+
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Email, user.Email),
+            new("tenantId", user.TenantId.ToString())
+        };
+
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+
+        var credentials = new SigningCredentials(
+            key,
+            SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            claims:
-            [
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-            ],
-            expires: DateTime.UtcNow.AddHours(12),
-            signingCredentials: new SigningCredentials(
-                new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256)
-        );
+            claims: claims,
+            expires: DateTime.UtcNow.AddDays(7),
+            signingCredentials: credentials);
 
-        return Task.FromResult(
-            new JwtSecurityTokenHandler().WriteToken(token));
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

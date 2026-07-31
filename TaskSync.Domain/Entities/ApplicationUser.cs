@@ -16,7 +16,7 @@ public sealed class ApplicationUser : AggregateRoot
         Guid tenantId,
         string firstName,
         string lastName,
-        Email email)
+        string email)
     {
         Id = Guid.NewGuid();
 
@@ -35,18 +35,23 @@ public sealed class ApplicationUser : AggregateRoot
 
     public string LastName { get; private set; } = default!;
 
-    public Email Email { get; private set; } = default!;
+    public string Email { get; private set; } = default!;
 
     public UserStatus Status { get; private set; }
 
     public string FullName
         => $"{FirstName} {LastName}";
+    public string PasswordHash { get; private set; } = string.Empty;
 
+    public void SetPassword(string passwordHash)
+    {
+        PasswordHash = passwordHash;
+    }
     public static ApplicationUser Create(
         Guid tenantId,
         string firstName,
         string lastName,
-        Email email)
+        string email)
     {
         var user = new ApplicationUser(
             tenantId,
@@ -62,14 +67,14 @@ public sealed class ApplicationUser : AggregateRoot
         return user;
     }
 
-    public void ChangeEmail(Email newEmail)
+    public void ChangeEmail(string newEmail)
     {
         ArgumentNullException.ThrowIfNull(newEmail);
 
         if (Email == newEmail)
             return;
 
-        var previousEmail = Email.Value;
+        var previousEmail = Email;
 
         Email = newEmail;
 
@@ -77,7 +82,7 @@ public sealed class ApplicationUser : AggregateRoot
             new UserEmailChangedDomainEvent(
                 Id,
                 previousEmail,
-                newEmail.Value));
+                newEmail));
     }
 
     public void Activate()
@@ -101,4 +106,5 @@ public sealed class ApplicationUser : AggregateRoot
         AddDomainEvent(
             new UserDeactivatedDomainEvent(Id));
     }
+
 }

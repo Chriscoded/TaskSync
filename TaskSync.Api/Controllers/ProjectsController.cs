@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskSync.Api.Controllers;
 using TaskSync.Application.Features.Projects.Commands.CreateProject;
 using TaskSync.Application.Features.Projects.Queries.GetProjects;
 
+[Authorize]
+[ApiController]
 [Route("api/projects")]
 public sealed class ProjectsController : BaseController
 {

@@ -31,4 +31,18 @@ public sealed class Attachment : BaseAuditableEntity
     public string FileName { get; private set; } = default!;
 
     public string Path { get; private set; } = default!;
+
+    public static Attachment Create(
+        Guid taskId,
+        string fileName,
+        string path)
+    {
+        return new Attachment
+        {
+            Id = Guid.NewGuid(),
+            TaskItemId = taskId,
+            FileName = fileName,
+            Path = path
+        };
+    }
 }

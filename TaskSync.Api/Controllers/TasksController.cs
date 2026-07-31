@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Tasks.Commands.CreateTask;
 using TaskSync.Application.Features.Tasks.Queries.GetTasks;
 
 namespace TaskSync.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/projects/{projectId:guid}/tasks")]
 public sealed class TasksController : ControllerBase

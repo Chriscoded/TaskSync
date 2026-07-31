@@ -9,13 +9,16 @@ public sealed class LoginCommandHandler
     : IRequestHandler<LoginCommand, string>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtService _jwtService;
 
     public LoginCommandHandler(
         IApplicationDbContext context,
+        IPasswordHasher passwordHasher,
         IJwtService jwtService)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
         _jwtService = jwtService;
     }
 
@@ -23,12 +26,20 @@ public sealed class LoginCommandHandler
         LoginCommand request,
         CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(
-            x => x.Email.Value == request.Email.ToLower(),
-            cancellationToken);
+        var user = await _context.Users
+            .FirstOrDefaultAsync(
+                x => x.Email == request.Email,
+                cancellationToken);
 
         if (user is null)
-            throw new Exception("Invalid credentials.");
+            throw new UnauthorizedAccessException();
+
+        if (!_passwordHasher.Verify(
+            user.PasswordHash,
+            request.Password))
+        {
+            throw new UnauthorizedAccessException();
+        }
 
         return await _jwtService.GenerateTokenAsync(user.Id);
     }

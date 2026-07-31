@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Users.Commands.CreateUser;
 using TaskSync.Application.Features.Users.Queries.GetUsers;
 
 namespace TaskSync.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/users")]
 public sealed class UsersController : ControllerBase

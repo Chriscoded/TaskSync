@@ -1,18 +1,18 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskSync.Application.Features.Notifications.Queries.GetNotifications;
+using TaskSync.Application.Features.Dashboard.Queries.GetDashboard;
 
 namespace TaskSync.Api.Controllers;
 
-[ApiController]
-[Route("api/notifications")]
 [Authorize]
-public sealed class NotificationsController : ControllerBase
+[ApiController]
+[Route("api/dashboard")]
+public sealed class DashboardController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public NotificationsController(IMediator mediator)
+    public DashboardController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -21,6 +21,7 @@ public sealed class NotificationsController : ControllerBase
     public async Task<IResult> Get()
     {
         return Results.Ok(
-            await _mediator.Send(new GetNotificationsQuery()));
+            await _mediator.Send(
+                new GetDashboardQuery()));
     }
 }

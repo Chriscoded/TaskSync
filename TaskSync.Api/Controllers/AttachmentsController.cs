@@ -1,17 +1,18 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskSync.Application.Features.Attachments.Commands.CreateAttachment;
+using TaskSync.Application.Features.Attachments.Commands.UploadAttachment;
 
 namespace TaskSync.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/tasks/{taskId:guid}/attachments")]
 public sealed class AttachmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AttachmentsController(
-        IMediator mediator)
+    public AttachmentsController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -19,20 +20,15 @@ public sealed class AttachmentsController : ControllerBase
     [HttpPost]
     public async Task<IResult> Upload(
         Guid taskId,
-        UploadAttachmentRequest request)
+        IFormFile file)
     {
         var id = await _mediator.Send(
-            new CreateAttachmentCommand(
+            new UploadAttachmentCommand(
                 taskId,
-                request.FileName,
-                request.Path));
+                file));
 
         return Results.Created(
             $"/api/attachments/{id}",
             id);
     }
 }
-
-public sealed record UploadAttachmentRequest(
-    string FileName,
-    string Path);

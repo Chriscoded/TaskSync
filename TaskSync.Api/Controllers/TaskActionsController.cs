@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskSync.Application.Features.Tasks.Commands.CompleteTask;
 
@@ -6,6 +7,7 @@ namespace TaskSync.Api.Controllers;
 
 [ApiController]
 [Route("api/tasks")]
+[Authorize]
 public sealed class TaskActionsController : ControllerBase
 {
     private readonly IMediator _mediator;
