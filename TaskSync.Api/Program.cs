@@ -22,8 +22,21 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHealthChecks();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
+app.UseCors("CorsPolicy");
 app.UseApplicationMiddleware();
 
 app.UseSwagger();

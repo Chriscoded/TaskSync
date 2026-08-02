@@ -10,7 +10,7 @@ namespace TaskSync.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/projects/{projectId:guid}/tasks")]
+[Route("api")]
 public sealed class TasksController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -20,13 +20,13 @@ public sealed class TasksController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
+    [HttpGet("projects/{projectId:guid}/tasks")]
     public async Task<IResult> Get(Guid projectId)
     {
         return Results.Ok(await _mediator.Send(new GetTasksQuery(projectId)));
     }
 
-    [HttpPost]
+    [HttpPost("projects/{projectId:guid}/tasks")]
     public async Task<IResult> Create(Guid projectId, CreateTaskRequest request)
     {
         var id = await _mediator.Send(new CreateTaskCommand(
@@ -38,8 +38,8 @@ public sealed class TasksController : ControllerBase
         return Results.Created($"/api/tasks/{id}", id);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IResult> Get(Guid id)
+    [HttpGet("tasks/{id:guid}")]
+    public async Task<IResult> GetById(Guid id)
     {
         return Results.Ok(
             await _mediator.Send(
