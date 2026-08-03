@@ -21,7 +21,7 @@ public sealed class GetTenantsHandler
     {
         return await _context.Tenants
             .AsNoTracking()
-            .OrderBy(x => x.Name.Value)
+            .OrderBy(x => x.Name)
             .Select(x => new TenantDto
             {
                 Id = x.Id,
